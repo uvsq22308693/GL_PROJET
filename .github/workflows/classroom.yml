@@ -1,0 +1,75 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: checkstyle
+      id: checkstyle
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: checkstyle
+        setup-command: sudo apt install openjdk-17-jdk
+        command: JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/ ./mvnw validate
+        timeout: 10
+        max-score: 1
+    - name: shouldCreateASimpleBook
+      id: shouldcreateasimplebook
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: shouldCreateASimpleBook
+        setup-command: sudo apt install openjdk-17-jdk
+        command: JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/ ./mvnw -Dtest=BookTest#shouldCreateASimpleBook
+          test
+        timeout: 10
+        max-score: 1
+    - name: shouldCreateABookWithYearAndAuthor
+      id: shouldcreateabookwithyearandauthor
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: shouldCreateABookWithYearAndAuthor
+        setup-command: sudo apt install openjdk-17-jdk
+        command: JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/ ./mvnw -Dtest=BookTest#shouldCreateABookWithYearAndAuthor
+          test
+        timeout: 10
+        max-score: 1
+    - name: shouldCreateABookWithChapters
+      id: shouldcreateabookwithchapters
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: shouldCreateABookWithChapters
+        setup-command: sudo apt install openjdk-17-jdk
+        command: JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/ ./mvnw -Dtest=BookTest#shouldCreateABookWithChapters
+          test
+        timeout: 10
+        max-score: 1
+    - name: shouldReturnADescription
+      id: shouldreturnadescription
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: shouldReturnADescription
+        setup-command: sudo apt install openjdk-17-jdk
+        command: JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64/ ./mvnw -Dtest=BookTest#shouldReturnADescription
+          test
+        timeout: 10
+        max-score: 1
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        CHECKSTYLE_RESULTS: "${{steps.checkstyle.outputs.result}}"
+        SHOULDCREATEASIMPLEBOOK_RESULTS: "${{steps.shouldcreateasimplebook.outputs.result}}"
+        SHOULDCREATEABOOKWITHYEARANDAUTHOR_RESULTS: "${{steps.shouldcreateabookwithyearandauthor.outputs.result}}"
+        SHOULDCREATEABOOKWITHCHAPTERS_RESULTS: "${{steps.shouldcreateabookwithchapters.outputs.result}}"
+        SHOULDRETURNADESCRIPTION_RESULTS: "${{steps.shouldreturnadescription.outputs.result}}"
+      with:
+        runners: checkstyle,shouldcreateasimplebook,shouldcreateabookwithyearandauthor,shouldcreateabookwithchapters,shouldreturnadescription
