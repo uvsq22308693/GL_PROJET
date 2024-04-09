@@ -1,8 +1,37 @@
-public class Fichier {
 
-    // afficher , renommer, supprimer , creer 
+package fr.uvsq.pglp.builder;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.File;
+import java.util.Date;
+import java.io.IOException;
+import java.util.Scanner;
+import java.nio.file.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.io.File;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
+
+public class Fichier extends responsable{
+
+    int ner;
+    String nom, chemin;
+    public Fichier (int ner, String nom, String chemin){
+        ner=this.ner;
+        nom=this.nom;
+        chemin=this.chemin;
+    }
+
+// afficher , renommer, supprimer , creer 
 // +++++++++++++++++++++++++++++++++++ creer fichier +++++++++++++++++++++++++++++++++++++++++++++++++
- public void creerFichier(String chemin, String nomFichier) {
+public void creerFichier(String chemin, String nomFichier) {
     // Créez un objet File avec le chemin spécifié
     File fichier = new File(chemin, nomFichier);
 
@@ -36,13 +65,26 @@ public class Fichier {
     }
 }
 
+// +++++++++++++++++++++++++++++++++++ a partir du nom recuperer le chemin comme la fonction found 
+/* 
+public String getCheminParNom(String nomFichier, Map<Integer, String> hashMap) {
+    for (Map.Entry<Integer, String> entry : hashMap.entrySet()) {
+        String nomDuFichier = new File(entry.getValue()).getName();
+        if (nomDuFichier.equals(nomFichier)) {
+            return entry.getValue();
+        }
+    }
+
+    return null; // Retourne null si aucun fichier trouvé avec le nom spécifié
+}
+*/
 //+++++++++++++++++++++++++++++++++++++++++++  annoter -  +++++++++++++++++++++++++++++++++++
 public  void supprimerContenuFichier2(String cheminFichier,int num,Map<Integer, String> hashMap) {
     try (FileWriter writer = new FileWriter(cheminFichier, false)) {
      // Écrase le contenu du fichier en le réinitialisant
      writer.write("");
      System.out.println("Contenu du fichier supprimé avec succès.");
-      String annotation = "Fichier numéro " + num + " a etait supprimé avec succès";
+      /* String annotation = "Fichier numéro " + num + " a etait supprimé avec succès";
       String fc= getCheminParNom("annoter.txt", hashMap) ;
        try (BufferedWriter writerr = new BufferedWriter(new FileWriter(fc, true))) {
          writerr.write(annotation);
@@ -51,7 +93,7 @@ public  void supprimerContenuFichier2(String cheminFichier,int num,Map<Integer, 
        }
        catch (IOException e) {
        System.err.println("Erreur lors de l'ajout du texte au fichier : " + e.getMessage());
-      }  
+      } */ 
  } catch (IOException e) {
        e.printStackTrace();
  }
@@ -86,10 +128,100 @@ public void rechercherFichierRecursive(File repertoire, String nomFichier, List<
         }
     }
 }
-//=================================================== past =============================================================
-public   void past(String cheminDestination,boolean fichierCoupe, String fichierACopier ,int num,Map<Integer, String> hashMap,String source) {
-    // Appel à la méthode coller pour la réutilisation du code
-    coller2(cheminDestination,fichierCoupe,fichierACopier,num,hashMap,source);
+
+//++++++++++++++++++++++++++++++++++++++++ recuperer le chemin a partir du numero du fichier +++++++++++++++++++
+/*public String recupererCheminParNumero(int numeroFichier, Map<Integer, String> hashMap) {
+    if (hashMap.containsKey(numeroFichier)) {
+        return hashMap.get(numeroFichier);
+    } else {
+        System.out.println("Aucun fichier trouvé avec le numéro " + numeroFichier);
+        return null; // Ou vous pouvez lancer une exception ou renvoyer une chaîne vide selon vos besoins
+    }
+}*/
+
+//+++++++++++++++++++++++++++++++++++  annoter +  ++++++++++++++++++++++++++++++++++++++++++++
+
+public void ajouterTexteAuFichier2(String nomFichier, String texteAAjouter,int num,Map<Integer, String> hashMap) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier, true))) {
+        writer.write(texteAAjouter);
+        writer.newLine(); // Ajoute une nouvelle ligne si nécessaire
+
+         /*String annotation = "Fichier numéro " + num + " : Ajout de texte: "+texteAAjouter;
+         String fc= getCheminParNom("annoter.txt", hashMap) ;
+          try (BufferedWriter writerr = new BufferedWriter(new FileWriter(fc, true))) {
+            writerr.write(annotation);
+            writerr.newLine(); // Ajoute une nouvelle ligne si nécessaire
+            System.out.println("Texte ajouté avec succès au fichier annoter .");
+          }
+          catch (IOException e) {
+          System.err.println("Erreur lors de l'ajout du texte au fichier : " + e.getMessage());
+         } */
+
+        System.out.println("Texte ajouté avec succès au fichier.");
+    } catch (IOException e) {
+        System.err.println("Erreur lors de l'ajout du texte au fichier : " + e.getMessage());
+    }
 }
-     
+
+/* 
+// +++++++++++++++++++++++++++++++++++++++++ creer fichier annoter  ++++++++++++++++++++++++++++++++++++++++++
+public   void creerFichierDansNouveauRepertoire(String cheminRepertoireParent, String nomFichier) {
+    // Crée le répertoire parent s'il n'existe pas
+    File repertoireParent = new File(cheminRepertoireParent);
+    if (!repertoireParent.exists()) {
+        repertoireParent.mkdirs();
+    }
+
+    // Crée le chemin complet du fichier
+    File fichier = new File(repertoireParent, nomFichier);
+
+    // Vérifie si le fichier existe déjà
+    if (!fichier.exists()) {
+        try {
+            // Crée le fichier
+            if (fichier.createNewFile()) {
+                System.out.println("Fichier créé avec succès à : " + fichier.getAbsolutePath());
+            } else {
+                System.out.println("Échec de la création du fichier.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de la création du fichier.");
+        }
+    } else {
+        System.out.println("Le fichier existe déjà à : " + fichier.getAbsolutePath());
+    }
 }
+//+++++++++++++++++++++++++++++++++++++++++++++ affichage  des annotations ++++++++++++++++++++++++++++
+
+public void afficherParNumero(String cheminFichierEntree, String numeroRecherche) {
+    if (cheminFichierEntree == null) {
+        System.out.println("Le chemin du fichier est null.");
+        return;
+    }
+
+    boolean numeroTrouve = false;
+    try (BufferedReader lecteur = new BufferedReader(new FileReader(cheminFichierEntree))) {
+        System.out.println("cvvvvvvvvvvvvvvv");
+        String ligne;
+        // Parcourir chaque ligne du fichier d'entrée
+        while ((ligne = lecteur.readLine()) != null) {
+            // Vérifier si le numéro recherché est présent dans la ligne
+            if (ligne.contains(numeroRecherche)) {
+                // Afficher la ligne correspondante
+                System.out.println(ligne);
+                numeroTrouve = true;
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("bleemme");
+        e.printStackTrace();
+    }
+
+    if (!numeroTrouve) {
+        System.out.println("Aucune ligne avec le numéro " + numeroRecherche + " n'a été trouvée.");
+    }
+}*/
+
+}
+

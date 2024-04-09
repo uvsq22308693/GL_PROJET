@@ -1,5 +1,5 @@
-package fr.uvsq.cprog;
 
+package fr.uvsq.pglp.builder;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.BufferedReader;
@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 
 
 public class GestionnaireFichiers{
-    
 // ================================repertoire courant==================================
     public Path obtenirCheminRepertoireCourant() {
         return Paths.get("").toAbsolutePath();
@@ -38,11 +37,15 @@ public class GestionnaireFichiers{
                 hashMap.put(numero, chemin.toAbsolutePath().toString());
                 numero++;
             }
+
         } catch (IOException e) {
             System.err.println("Erreur lors de la récupération du contenu du répertoire.");
             e.printStackTrace();
         }
     }
+
+    
+
 //++++++++++++++++++++++++++++++++++++++++++ affichage de la hmap ++++++++++++++++++++++++++++++++++++++++++++
     public void afficherContenuHashMap(Map<Integer, String> hashMap) {
         System.out.println("Contenu de la HashMap :");
@@ -60,6 +63,7 @@ public String recupererCheminParNumero(int numeroFichier, Map<Integer, String> h
     }
 }
 // +++++++++++++++++++++++++++++++++++ a partir du nom recuperer le chemin comme la fonction found 
+
 public String getCheminParNom(String nomFichier, Map<Integer, String> hashMap) {
     for (Map.Entry<Integer, String> entry : hashMap.entrySet()) {
         String nomDuFichier = new File(entry.getValue()).getName();
@@ -67,16 +71,19 @@ public String getCheminParNom(String nomFichier, Map<Integer, String> hashMap) {
             return entry.getValue();
         }
     }
+
     return null; // Retourne null si aucun fichier trouvé avec le nom spécifié
 }
 //++++++++++++++++++++++++++++++++++++++++++++++ MKDIR +++++++++++++++++++++++++++++++++++++++++++++
    public static void createDirectory(String chemin, String nomDossier) {
         // Création d'un objet File avec le chemin complet du répertoire à créer
         File nouveauRepertoire = new File(chemin, nomDossier);
+
         // Vérification si le répertoire n'existe pas déjà
         if (!nouveauRepertoire.exists()) {
             // Utilisation de mkdir pour créer le répertoire
             boolean creationReussie = nouveauRepertoire.mkdir();
+
             if (creationReussie) {
                 System.out.println("Répertoire créé avec succès : " + nouveauRepertoire.getAbsolutePath());
             } else {
@@ -86,7 +93,6 @@ public String getCheminParNom(String nomFichier, Map<Integer, String> hashMap) {
             System.out.println("Le répertoire existe déjà : " + nouveauRepertoire.getAbsolutePath());
         }
     }
-    //fichier 
 //+++++++++++++++++++++++++++++++++++++++++++++++ visu +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 public  void lireEtAfficherContenu(String cheminFichier) {
     // récupérer le fichier et lire le contenu et les caractères du fichier
@@ -101,12 +107,13 @@ public  void lireEtAfficherContenu(String cheminFichier) {
         if (fichier.length() == 0) {
             System.out.println("Le fichier est vide. Taille du fichier : " + fichier.length() + " octets");
         }
+
     } catch (IOException e) {
         e.printStackTrace();
     }
 }
 //++++++++++++++++++++++++++++++++++++++++ acceder au dossier (.) +++++++++++++++++++++++++++++++++++++
-public   void naviguerEtAfficherContenu(Path repertoireCourant) {
+ public   void naviguerEtAfficherContenu(Path repertoireCourant) {
     // Vérifiez si l'entrée est un répertoire
     if (Files.isDirectory(repertoireCourant)) {
         // Affichez le contenu du répertoire
@@ -116,7 +123,7 @@ public   void naviguerEtAfficherContenu(Path repertoireCourant) {
     }
 }
 
-public void afficherContenuRepertoire(Path repertoire) {
+ public void afficherContenuRepertoire(Path repertoire) {
     try (DirectoryStream<Path> stream = Files.newDirectoryStream(repertoire)) {
         for (Path chemin : stream) {
             System.out.println(chemin.getFileName());
@@ -126,6 +133,7 @@ public void afficherContenuRepertoire(Path repertoire) {
     }
 }
 //+++++++++++++++++++++++++++++++++++  annoter +  ++++++++++++++++++++++++++++++++++++++++++++
+
 public void ajouterTexteAuFichier2(String nomFichier, String texteAAjouter,int num,Map<Integer, String> hashMap) {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier, true))) {
         writer.write(texteAAjouter);
@@ -147,6 +155,7 @@ public void ajouterTexteAuFichier2(String nomFichier, String texteAAjouter,int n
         System.err.println("Erreur lors de l'ajout du texte au fichier : " + e.getMessage());
     }
 }
+
 //+++++++++++++++++++++++++++++++++++++++++++  annoter -  +++++++++++++++++++++++++++++++++++
 public  void supprimerContenuFichier2(String cheminFichier,int num,Map<Integer, String> hashMap) {
        try (FileWriter writer = new FileWriter(cheminFichier, false)) {
@@ -162,15 +171,19 @@ public  void supprimerContenuFichier2(String cheminFichier,int num,Map<Integer, 
           }
           catch (IOException e) {
           System.err.println("Erreur lors de l'ajout du texte au fichier : " + e.getMessage());
-         }  
+         }
+
+       
     } catch (IOException e) {
           e.printStackTrace();
     }
 }
+
 //+++++++++++++++++++++++++++++++++++++++ remonter le dossier (..) ++++++++++++++++++++++++++++++++++++++
 public  String remonterDossier(Path repertoire) {
     // Utilisez la méthode getParent() pour obtenir le répertoire parent
     Path repertoireParent = repertoire.getParent();
+
     if (repertoireParent != null) {
         System.out.println("Chemin du répertoire parent est : " + repertoireParent);
         return repertoireParent.toString();
@@ -183,17 +196,20 @@ public  String remonterDossier(Path repertoire) {
  public void rechercheFichier(String nomFichier) {
         // Obtient le chemin du répertoire courant
         String cheminRepertoireCourant = System.getProperty("user.dir");
+
         // Initialise une liste pour stocker les chemins des fichiers trouvés
         List<String> cheminsFichiersTrouves = new ArrayList<>();
+
         // Appelle la fonction récursive de recherche
         rechercherFichierRecursive(new File(cheminRepertoireCourant), nomFichier, cheminsFichiersTrouves);
+
         // Affiche les chemins des fichiers trouvés
         for (String chemin : cheminsFichiersTrouves) {
             System.out.println("Fichier trouvé : " + chemin);
         }
     }
 
-public void rechercherFichierRecursive(File repertoire, String nomFichier, List<String> cheminsFichiersTrouves) {
+     public void rechercherFichierRecursive(File repertoire, String nomFichier, List<String> cheminsFichiersTrouves) {
         // Obtient la liste des fichiers dans le répertoire actuel
         File[] fichiers = repertoire.listFiles();
 
@@ -213,7 +229,7 @@ public void rechercherFichierRecursive(File repertoire, String nomFichier, List<
  public void copier(String cheminSource,boolean fichierCoupe,String fichierACopier ,int num,Map<Integer, String> hashMap) {
     fichierACopier = cheminSource;
     fichierCoupe = false;
-    String annotation = "Fichier numéro " + num + " a etait copié du repetoire";
+    /*String annotation = "Fichier numéro " + num + " a etait copié du repetoire";
          String fc= getCheminParNom("annoter.txt", hashMap) ;
           try (BufferedWriter writerr = new BufferedWriter(new FileWriter(fc, true))) {
             writerr.write(annotation);
@@ -222,7 +238,7 @@ public void rechercherFichierRecursive(File repertoire, String nomFichier, List<
           }
           catch (IOException e) {
           System.err.println("Erreur lors de l'ajout du texte au fichier : " + e.getMessage());
-         }
+         }*/
     System.out.println("Fichier copié : " + fichierACopier);
 }
 
@@ -230,7 +246,7 @@ public void rechercherFichierRecursive(File repertoire, String nomFichier, List<
  public void couper(String cheminSource, boolean fichierCoupe, String fichierACopier ,int num,Map<Integer, String> hashMap) {
     fichierACopier = cheminSource;
     fichierCoupe = true;
-    String annotation = "Fichier numéro " + num + " a etait coupé du repertoire ";
+    /*String annotation = "Fichier numéro " + num + " a etait coupé du repertoire ";
          String fc= getCheminParNom("annoter.txt", hashMap) ;
           try (BufferedWriter writerr = new BufferedWriter(new FileWriter(fc, true))) {
             writerr.write(annotation);
@@ -239,18 +255,20 @@ public void rechercherFichierRecursive(File repertoire, String nomFichier, List<
           }
           catch (IOException e) {
           System.err.println("Erreur lors de l'ajout du texte au fichier : " + e.getMessage());
-         }
+         }*/
     System.out.println("Fichier coupé : " + fichierACopier);
 }
 
-public   Path ajusterNomFichierExistants(Path destinationPath) {
+ public   Path ajusterNomFichierExistants(Path destinationPath) {
     int count = 1;
     String originalFileName = destinationPath.getFileName().toString();
+
     while (Files.exists(destinationPath)) {
         String newFileName = originalFileName.replaceFirst("[.][^.]+$", "") + "-copy" + count + originalFileName.replaceAll(".*[.]", ".");
         destinationPath = destinationPath.resolveSibling(newFileName);
         count++;
     }
+
     return destinationPath;
 }
 
@@ -298,7 +316,7 @@ public   Path ajusterNomFichierExistants(Path destinationPath) {
             System.out.println("Fichier copié avec succès à : " + destinationPath);
         }
 
-        // Ajouter l'annotation dans le fichier annoter.txt
+       /* // Ajouter l'annotation dans le fichier annoter.txt
         String annotation = "Fichier numéro " + num + " a été collé";
         String fc = getCheminParNom("annoter.txt", hashMap);
         try (BufferedWriter writerr = new BufferedWriter(new FileWriter(fc, true))) {
@@ -307,7 +325,7 @@ public   Path ajusterNomFichierExistants(Path destinationPath) {
             System.out.println("Texte ajouté avec succès au fichier annoter.txt.");
         } catch (IOException e) {
             System.err.println("Erreur lors de l'ajout du texte au fichier annoter.txt : " + e.getMessage());
-        }
+        }*/
     }
 
      public   void copierDossier(Path sourcePath, Path destinationPath, boolean fichierCoupe, int num, Map<Integer, String> hashMap) throws IOException {
@@ -334,7 +352,7 @@ public   Path ajusterNomFichierExistants(Path destinationPath) {
                 }
 
                 // Ajouter l'annotation dans le fichier annoter.txt
-                String annotation = "Fichier numéro " + num + " a été collé";
+               /* String annotation = "Fichier numéro " + num + " a été collé";
                 String fc = getCheminParNom("annoter.txt", hashMap);
                 try (BufferedWriter writerr = new BufferedWriter(new FileWriter(fc, true))) {
                     writerr.write(annotation);
@@ -342,7 +360,7 @@ public   Path ajusterNomFichierExistants(Path destinationPath) {
                     System.out.println("Texte ajouté avec succès au fichier annoter.txt.");
                 } catch (IOException e) {
                     System.err.println("Erreur lors de l'ajout du texte au fichier annoter.txt : " + e.getMessage());
-                }
+                }*/
 
                 return FileVisitResult.CONTINUE;
             }
@@ -383,6 +401,7 @@ public   Path ajusterNomFichierExistants(Path destinationPath) {
     coller2(cheminDestination,fichierCoupe,fichierACopier,num,hashMap,source);
 }
 
+
 // +++++++++++++++++++++++++++++++++++++++++ creer fichier annoter  ++++++++++++++++++++++++++++++++++++++++++
   public   void creerFichierDansNouveauRepertoire(String cheminRepertoireParent, String nomFichier) {
         // Crée le répertoire parent s'il n'existe pas
@@ -390,8 +409,10 @@ public   Path ajusterNomFichierExistants(Path destinationPath) {
         if (!repertoireParent.exists()) {
             repertoireParent.mkdirs();
         }
+
         // Crée le chemin complet du fichier
         File fichier = new File(repertoireParent, nomFichier);
+
         // Vérifie si le fichier existe déjà
         if (!fichier.exists()) {
             try {
@@ -411,6 +432,7 @@ public   Path ajusterNomFichierExistants(Path destinationPath) {
     }
 
 //+++++++++++++++++++++++++++++++++++++++++++++ affichage  des annotations ++++++++++++++++++++++++++++
+
 public void afficherParNumero(String cheminFichierEntree, String numeroRecherche) {
     if (cheminFichierEntree == null) {
         System.out.println("Le chemin du fichier est null.");
@@ -478,5 +500,3 @@ public void afficherParNumero(String cheminFichierEntree, String numeroRecherche
     }
 }
 }
-
-  

@@ -1,4 +1,5 @@
-package fr.uvsq.cprog;
+
+package fr.uvsq.pglp.builder;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -19,7 +20,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 
 
-public class Repertoire {
+public class Repertoire extends responsable{
+
+    // ================================repertoire courant==================================
+    public Path obtenirCheminRepertoireCourant() {
+     return Paths.get("").toAbsolutePath();
+    }
 
     //========================================affichage des  elements du repertoire courant========================== 
     public static void afficherContenuRepertoiree(Path repertoire,Map<Integer, String> hashMap) {
@@ -123,10 +129,5 @@ public void rechercherFichierRecursive(File repertoire, String nomFichier, List<
     }
 }
 
-//=================================================== past =============================================================
-public   void past(String cheminDestination,boolean fichierCoupe, String fichierACopier ,int num,Map<Integer, String> hashMap,String source) {
-    // Appel à la méthode coller pour la réutilisation du code
-    coller2(cheminDestination,fichierCoupe,fichierACopier,num,hashMap,source);
-}
-    
+
 }
