@@ -12,7 +12,6 @@ import java.util.Scanner;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.File;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,12 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 
 
-public class Repertoire extends responsable{
+public class Repertoire extends Element{
+    public Repertoire (int ner, String nom, String chemin) {
+        super(ner, nom, chemin);
+        
+
+    }
 
     // ================================repertoire courant==================================
     public Path obtenirCheminRepertoireCourant() {

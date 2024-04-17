@@ -19,8 +19,16 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 
 
-public class responsable {
+public class Element {
     
+    int ner;
+    String nom, chemin;
+    public Element (int ner, String nom, String chemin){
+        ner=this.ner;
+        nom=this.nom;
+        chemin=this.chemin;
+    }
+
 // +++++++++++++++++++++++++++++++++++ a partir du nom recuperer le chemin comme la fonction found 
 
 public String getCheminParNom(String nomFichier, Map<Integer, String> hashMap) {

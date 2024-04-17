@@ -1,29 +1,11 @@
 package fr.uvsq.pglp.builder;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.File;
-
-import java.io.IOException;
 import java.util.Scanner;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
-import java.nio.file.DirectoryStream;
-import java.nio.file.*;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.File;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.nio.file.attribute.BasicFileAttributes;
 
 public class App 
 {
@@ -52,9 +34,9 @@ public class App
     String cop=" ";
     int numfich=0;
     GestionnaireFichiers gf = new GestionnaireFichiers();  
-    Repertoire repertoire = new Repertoire();
-    Fichier file = new Fichier(1,"f","d");
-    responsable ress=new responsable();
+    Repertoire repertoire = new Repertoire(2,"src","./src");
+    Fichier file = new Fichier(14,"cylia.txt","./src/main/cylia.txt","Bonjour");
+    Element ress= new Element(12,"fichier","src/...");
 
     while (true) {
 

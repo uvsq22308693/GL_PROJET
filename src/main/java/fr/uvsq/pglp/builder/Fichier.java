@@ -6,27 +6,17 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
-import java.util.Date;
 import java.io.IOException;
-import java.util.Scanner;
-import java.nio.file.*;
-import java.util.HashMap;
 import java.util.Map;
-import java.io.File;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.text.SimpleDateFormat;
+import java.util.List; 
 
-public class Fichier extends responsable{
 
-    int ner;
-    String nom, chemin;
-    public Fichier (int ner, String nom, String chemin){
-        ner=this.ner;
-        nom=this.nom;
-        chemin=this.chemin;
+public class Fichier extends Element{
+    String contenu;
+    public Fichier(int ner, String nom, String chemin, String contenu){
+        super(ner, nom, chemin);
+        this.contenu = contenu;
     }
 
 // afficher , renommer, supprimer , creer 
