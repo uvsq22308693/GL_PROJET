@@ -196,7 +196,9 @@ public class App
                     // ici fonction recherche avec fichier comme entree
 
                         // Sinon, copier le fichier normalement
-                        file.rechercheFichier(fichier);
+                        //file.rechercheFichier(fichier);
+                        commande findFichier = new Find (new Fichier(num, " ", " "," "),fichier);
+                        findFichier.execute();
                     
                     break;
                 case "..":
@@ -232,7 +234,10 @@ public class App
                     //chemin = gf.recupererCheminParNumero(num, hashMap);
                     //gf.lireEtAfficherContenu(chemin);
                     chemin = file.recupererCheminParNumero(num, hashMap);
-                    file.lireEtAfficherContenu(chemin);
+                   // file.lireEtAfficherContenu(chemin);
+
+                    commande visuFichier = new Visu(new Fichier(num," " ,chemin," "),chemin);
+                    visuFichier.execute();
                     break;
                 case "+":
                     numfich=num;
@@ -242,8 +247,12 @@ public class App
                     System.out.println("Saisir un text :  ");
                     String text  = scanner.nextLine();
                     //gf.ajouterTexteAuFichier2(chemin, text,num,hashMap);
-                    file.ajouterTexteAuFichier2(chemin, text,num,hashMap);
+                    //file.ajouterTexteAuFichier2(chemin, text,num,hashMap);
                    //ajouterTexteAuFichierAvecAnnotation(chemin, text,num,rep);
+
+
+                   commande annoFichier = new Annoter(new Fichier(num," " ,chemin," "),chemin, text,num,hashMap);
+                  annoFichier.execute();
                     break;
                 case "-":
                     numfich=num;
@@ -251,14 +260,19 @@ public class App
                     //chemin = gf.recupererCheminParNumero(num, hashMap);
                     chemin = file.recupererCheminParNumero(num, hashMap);
                     //gf.supprimerContenuFichier2(chemin,num,hashMap);
-                    file.supprimerContenuFichier2(chemin,num,hashMap);
+                    //file.supprimerContenuFichier2(chemin,num,hashMap);
+                    commande annoFichierM = new AnnoterM(new Fichier(num," " ,chemin," "),chemin,num,hashMap);
+                    annoFichierM.execute();
                     break;
 
                     case "touch":
                     System.out.print(" donner nom du fichier ");
                     String nomfich = scanner.nextLine();
                       if(rep.trim().isEmpty()){ 
-                         file.creerFichier(repertoireCourant.toString(), nomfich);
+                        // file.creerFichier(repertoireCourant.toString(), nomfich);
+                         
+                         commande creerFichier = new Fichiercreer(new Fichier(0," "," "," "),repertoireCourant.toString(), "monFichier.txt");
+                        creerFichier.execute();
                     }else{
                         file.creerFichier(rep, nomfich);
                     }
