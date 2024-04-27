@@ -45,32 +45,42 @@ public class App
 // +++++++++++++++++Partie 1: Cheminement depuis la racine du système de fichiers
         // Appel de la fonction pour obtenir le chemin du répertoire courant
         //Path repertoireCourant = gf.obtenirCheminRepertoireCourant();
+       var repcour= new RecapChemin (new Repertoire(num," "," "));
+       repcour.execute();   
+       
+       if(rep.trim().isEmpty()){
+        repcour.afficheg();
+       }
+       else{
+       var r=repcour.modifierchamin(Path.of(rep));  
+       r.afficheg();
+        }
         Path repertoireCourant = repertoire.obtenirCheminRepertoireCourant();
-        if(rep.trim().isEmpty()){
+        /*if(rep.trim().isEmpty()){
         
         // Affichez le chemin du répertoire courant
         System.out.println("Chemin du répertoire courant : " + repertoireCourant);
            }else{
         // Affichez le chemin du répertoire courant
         System.out.println("Chemin du répertoire courant : " + Path.of(rep));
-           }
+           }*/
 
 // +++++++++++++++++Partie 2: Affiche la note associée à l'élément
-       /*  if(rep.trim().isEmpty()){ 
+       /*  if(rep.trim().isEmpty()){
        // gf.creerFichierDansNouveauRepertoire(repertoireCourant.toString(), "annoter.txt");
          file.creerFichierDansNouveauRepertoire(repertoireCourant.toString(), "annoter.txt");
         }else{
         //gf.creerFichierDansNouveauRepertoire(rep, "annoter.txt");
         file.creerFichierDansNouveauRepertoire(rep, "annoter.txt");
         }
-    
+
         if(num!=0){
         Path cheminBasePath = Paths.get(rep);
         Path cheminFinalPath = cheminBasePath.resolve("annoter.txt");
         // String fcc= getCheminParNomm("annoter.txt", hashMap) ;
          System.out.println("Chemin : "+ cheminFinalPath);
         //gf.afficherParNumero(cheminFinalPath.toString(),String.valueOf(numfich));
-        }else{ 
+        }else{
          System.out.println("fichierrr vide ");
         }*/
 
@@ -80,27 +90,38 @@ public class App
         // Affichez le contenu du répertoire courant
         if(rep.trim().isEmpty()){
         //gf.afficherContenuRepertoiree(repertoireCourant,hashMap );
-        Repertoire.afficherContenuRepertoiree(repertoireCourant,hashMap );
+        //Repertoire.afficherContenuRepertoiree(repertoireCourant,hashMap );
+
+        commande NER= new ContenueRep(new Repertoire(num," " ," "),repertoireCourant,hashMap);
+        NER.execute();
+
         }else{
-       // gf.afficherContenuRepertoiree(Path.of(rep),hashMap ); 
-        Repertoire.afficherContenuRepertoiree(Path.of(rep),hashMap ); 
+       // gf.afficherContenuRepertoiree(Path.of(rep),hashMap );
+       // Repertoire.afficherContenuRepertoiree(Path.of(rep),hashMap );
+
+       commande NER= new ContenueRep(new Repertoire(num," " ," "),Path.of(rep),hashMap);
+       NER.execute();
+
         }
         System.out.println("affichageeeeeeeeeeeee de hmap  ");
          //afficherContenuHashMap(hashMap);
+
+
+
 
         // ++++++++++++++++++++++Partie 4: Prompt pour saisir une commande
         System.out.println("les commandes  : \ncut\ncopy\npast\nfind\nvisu\n.\n..\nmkdir\n+\n-\noption\nXX\n  ");
         System.out.print("Entrez votre commande : ");
         String input = scanner.nextLine();
-        
+
             // Utilisation d'une expression régulière pour extraire les éléments
-        String[] elements = input.split("\\s+");   
+        String[] elements = input.split("\\s+");
         // Vérifier si le tableau a la taille attendue (3 éléments)
         if (elements.length == 3) {
             num = Integer.parseInt(elements[0]);
             commande = elements[1];
             fichier = elements[2];
-            // on a stocké 
+            // on a stocké
             stock[0]=String.valueOf(num);
             stock[1]=commande;
             stock[2]=fichier;
@@ -165,12 +186,22 @@ public class App
                 case "mkdir":
                 if(rep.trim().isEmpty()){
                     //gf.createDirectory(repertoireCourant.toString(),fichier);
-                    repertoire.createDirectory(repertoireCourant.toString(),fichier);
+                   // repertoire.createDirectory(repertoireCourant.toString(),fichier);
+                    commande crerrep = (new CreerRep(new Repertoire(num, "nomRepertoire", "cheminRepertoire"), repertoireCourant.toString(),fichier));
+                    crerrep.execute();
                     }else{
                     //gf.createDirectory(rep,fichier);
-                    repertoire.createDirectory(rep,fichier);
+                    //repertoire.createDirectory(rep,fichier);
+                    commande crerrep = (new CreerRep(new Repertoire(num, "nomRepertoire", "cheminRepertoire"),rep,fichier));
+                    crerrep.execute();
                     } 
-                    break;
+
+                    
+
+
+
+                      break;
+
                 case "cut":
                     numfich=num;
                     System.out.println("Vous avez choisi cut");
@@ -180,7 +211,7 @@ public class App
                     fichierCoupe=true;
                     //gf.couper(chemin,fichierCoupe,fichierACopier,num, hashMap);
                     ress.couper(chemin,fichierCoupe,fichierACopier,num, hashMap);
-                    // ici fonction de collage avec colle comme entree 
+                    // ici fonction de collage avec colle comme entree
                     break;
                 case "past":
                      System.out.println("Vous avez choisi past ");
@@ -197,8 +228,12 @@ public class App
 
                         // Sinon, copier le fichier normalement
                         //file.rechercheFichier(fichier);
+                        
                         commande findFichier = new Find (new Fichier(num, " ", " "," "),fichier);
                         findFichier.execute();
+
+                      
+                    
                     
                     break;
                 case "..":
@@ -221,8 +256,11 @@ public class App
                      chemin = repertoire.recupererCheminParNumero(num, hashMap);
                      //gf.naviguerEtAfficherContenu(Path.of(chemin));
                      
-                     repertoire.naviguerEtAfficherContenu(Path.of(chemin));
+                     //repertoire.naviguerEtAfficherContenu(Path.of(chemin));
                     rep= chemin;
+
+                    commande point= (new AccederRep(new Repertoire(num, "nomRepertoire", "cheminRepertoire"),Path.of(chemin)));
+                    point.execute();
 
                     
                     // afficherContenuRepertoiree(Path.of(rep),hashMap );

@@ -1,5 +1,5 @@
 package fr.uvsq.pglp.builder;
-
+import java.nio.file.Path;
 public class Visu implements commande{
     Fichier fichier;
     String chemin;
@@ -17,6 +17,7 @@ public class Visu implements commande{
     public void execute() {
         fichier.lireEtAfficherContenu(chemin);
     }
+
     
     
 }

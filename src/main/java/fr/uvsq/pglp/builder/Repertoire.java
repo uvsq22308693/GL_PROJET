@@ -102,36 +102,7 @@ public  String remonterDossier(Path repertoire) {
     }
 }
 
-//++++++++++++++++++++++++++++++++++++++++++++++  find  +++++++++++++++++++++++++++++++++++++++++++++++++
-public void rechercheFichier(String nomFichier) {
-    // Obtient le chemin du répertoire courant
-    String cheminRepertoireCourant = System.getProperty("user.dir");
-    // Initialise une liste pour stocker les chemins des fichiers trouvés
-    List<String> cheminsFichiersTrouves = new ArrayList<>();
-    // Appelle la fonction récursive de recherche
-    rechercherFichierRecursive(new File(cheminRepertoireCourant), nomFichier, cheminsFichiersTrouves);
-    // Affiche les chemins des fichiers trouvés
-    for (String chemin : cheminsFichiersTrouves) {
-        System.out.println("Fichier trouvé : " + chemin);
-    }
-}
 
-public void rechercherFichierRecursive(File repertoire, String nomFichier, List<String> cheminsFichiersTrouves) {
-    // Obtient la liste des fichiers dans le répertoire actuel
-    File[] fichiers = repertoire.listFiles();
-
-    if (fichiers != null) {
-        for (File fichier : fichiers) {
-            if (fichier.isDirectory()) {
-                // Appelle récursivement la fonction pour les sous-répertoires
-                rechercherFichierRecursive(fichier, nomFichier, cheminsFichiersTrouves);
-            } else if (fichier.getName().equals(nomFichier)) {
-                // Ajoute le chemin du fichier trouvé à la liste
-                cheminsFichiersTrouves.add(fichier.getAbsolutePath());
-            }
-        }
-    }
-}
 
 
 }

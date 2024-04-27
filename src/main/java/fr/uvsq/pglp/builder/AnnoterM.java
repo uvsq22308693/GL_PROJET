@@ -1,6 +1,7 @@
 package fr.uvsq.pglp.builder;
 
 import java.util.Map;
+import java.nio.file.Path;
 
 public class AnnoterM implements commande{
 
@@ -23,5 +24,6 @@ public class AnnoterM implements commande{
     public void execute() {
         fichier.supprimerContenuFichier2(chemin,num,hashMap);
     }
+
     
 }
