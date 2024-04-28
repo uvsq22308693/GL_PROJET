@@ -15,6 +15,7 @@ public class ContenueRep implements commande  {
         this.repertoire = repertoire; 
 
         this.hashMap=hashMap;
+        this.chemin=chemin;
         
     }
 

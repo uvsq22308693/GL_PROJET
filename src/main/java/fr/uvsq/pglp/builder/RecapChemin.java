@@ -28,6 +28,10 @@ public class RecapChemin implements commande {
    // mise a jour 
     public RecapChemin modifierchamin(Path chemin){
       return new RecapChemin(this.repertoire,chemin);
-
     }
+
+      public Path varchemin ( ){
+        return this.chemin;
+  
+      }
 }

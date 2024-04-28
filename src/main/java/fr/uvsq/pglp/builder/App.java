@@ -55,6 +55,10 @@ public class App
        var r=repcour.modifierchamin(Path.of(rep));  
        r.afficheg();
         }
+        
+        Path repoo=repcour.varchemin();
+       System.out.println("cheminnnnnnnnnnnnnnnnnnnnnnn ::: "+ repoo);
+       
         Path repertoireCourant = repertoire.obtenirCheminRepertoireCourant();
         /*if(rep.trim().isEmpty()){
         
@@ -97,11 +101,10 @@ public class App
 
         }else{
        // gf.afficherContenuRepertoiree(Path.of(rep),hashMap );
-       // Repertoire.afficherContenuRepertoiree(Path.of(rep),hashMap );
+        //Repertoire.afficherContenuRepertoiree(Path.of(rep),hashMap );
 
-       commande NER= new ContenueRep(new Repertoire(num," " ," "),Path.of(rep),hashMap);
-       NER.execute();
-
+      commande NER= new ContenueRep(new Repertoire(num," " ," "),Path.of(rep),hashMap);
+      NER.execute();
         }
         System.out.println("affichageeeeeeeeeeeee de hmap  ");
          //afficherContenuHashMap(hashMap);
@@ -175,13 +178,18 @@ public class App
                     numfich=num;
                     System.out.println("Vous avez choisi copier ");
                     //String chemin = gf.recupererCheminParNumero(num, hashMap);
-                    String chemin = ress.recupererCheminParNumero(num, hashMap);
+                    Repertoire f= new Repertoire(num, " ", " ");
+                    //String chemin = ress.recupererCheminParNumero(num, hashMap);
+                    
+                    String chemin = f.recupererCheminParNumero(num, hashMap);
+
                      System.out.println("chemin "+ chemin);
                     cop =chemin;
                     fichierCoupe=false;
                     System.out.println(fichierACopier);
                     //gf.copier(chemin,fichierCoupe,fichierACopier,num, hashMap);
-                    ress.copier(chemin,fichierCoupe,fichierACopier,num, hashMap);
+                   // ress.copier(chemin,fichierCoupe,fichierACopier,num, hashMap);
+                f.copier(chemin,fichierCoupe,fichierACopier,num, hashMap);
                     break;
                 case "mkdir":
                 if(rep.trim().isEmpty()){
@@ -206,11 +214,14 @@ public class App
                     numfich=num;
                     System.out.println("Vous avez choisi cut");
                     //chemin = gf.recupererCheminParNumero(num, hashMap);
-                    chemin = ress.recupererCheminParNumero(num, hashMap);
+                    f= new Repertoire(num, " ", " ");
+                    //chemin = ress.recupererCheminParNumero(num, hashMap);
+                    chemin = f.recupererCheminParNumero(num, hashMap);
                     cop =chemin;
                     fichierCoupe=true;
                     //gf.couper(chemin,fichierCoupe,fichierACopier,num, hashMap);
-                    ress.couper(chemin,fichierCoupe,fichierACopier,num, hashMap);
+                    //ress.couper(chemin,fichierCoupe,fichierACopier,num, hashMap);
+                    f.couper(chemin,fichierCoupe,fichierACopier,num, hashMap);
                     // ici fonction de collage avec colle comme entree
                     break;
                 case "past":
@@ -218,7 +229,9 @@ public class App
                      //numfich=num;
                     
                        // gf.past(rep,fichierCoupe,cop,num, hashMap,cop);
-                       ress.past(rep,fichierCoupe,cop,num, hashMap,cop);
+                       //ress.past(rep,fichierCoupe,cop,num, hashMap,cop);
+                       f= new Repertoire(num, " ", " ");
+                       f.past(rep,fichierCoupe,cop,num, hashMap,cop);
                     break;
                 case "find":
                     System.out.println("Vous avez choisi find ");
@@ -241,29 +254,18 @@ public class App
                    //chemin = gf.recupererCheminParNumero(num, hashMap);
                    chemin = repertoire.recupererCheminParNumero(num, hashMap);
                    if(rep.trim().isEmpty()){
-                  // parent= gf.remonterDossier(repertoireCourant);
-                   parent= repertoire.remonterDossier(repertoireCourant);
+                  parent= repertoire.remonterDossier(repertoireCourant);
                    }else{
-                    //parent= gf.remonterDossier(Path.of(rep));
                     parent= repertoire.remonterDossier(Path.of(rep));
                    }
                     rep =parent;
                     break;
                 case ".":
-                    //System.out.println("Vous avez choisi (.) ");
-                    // stock[0] pour recuperer en cas on a pas saisi la commande
-                     //chemin = gf.recupererCheminParNumero(num, hashMap);
                      chemin = repertoire.recupererCheminParNumero(num, hashMap);
-                     //gf.naviguerEtAfficherContenu(Path.of(chemin));
-                     
                      //repertoire.naviguerEtAfficherContenu(Path.of(chemin));
                     rep= chemin;
-
                     commande point= (new AccederRep(new Repertoire(num, "nomRepertoire", "cheminRepertoire"),Path.of(chemin)));
                     point.execute();
-
-                    
-                    // afficherContenuRepertoiree(Path.of(rep),hashMap );
                     break;
                 case "visu":
                     //numfich=num;
@@ -304,15 +306,14 @@ public class App
                     break;
 
                     case "touch":
-                    System.out.print(" donner nom du fichier ");
-                    String nomfich = scanner.nextLine();
+
                       if(rep.trim().isEmpty()){ 
                         // file.creerFichier(repertoireCourant.toString(), nomfich);
                          
                          commande creerFichier = new Fichiercreer(new Fichier(0," "," "," "),repertoireCourant.toString(), "monFichier.txt");
                         creerFichier.execute();
                     }else{
-                        file.creerFichier(rep, nomfich);
+                        file.creerFichier(rep, fichier);
                     }
   
                     
